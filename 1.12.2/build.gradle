@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
@@ -19,9 +19,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 sourceSets {
     main {
-        java {
-            srcDirs += project(":mccore").sourceSets.main.java.srcDirs
-        }
+//        java {
+//            srcDirs += project(":mccore").sourceSets.main.java.srcDirs
+//        }
 
         resources {
             srcDirs += project(":core").sourceSets.main.resources.srcDirs
@@ -31,21 +31,18 @@ sourceSets {
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
-    runDir = "eclipse"
+    runDir = "run"
 
-    mappings = "snapshot_20161111"
-//    makeObfSourceJar = false
+    mappings = "snapshot_20171003"
 
-    replace "@VERSION@", project.version
-    replaceIn "AchievementBooksMod.java"
+    replace '@VERSION@', "${config.mod_version}"
 }
 
-group = "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks"
 
 runClient {
     workingDir = "eclipse"
     args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true",
             "--username",
             "vsbmeza"
     ]
@@ -58,6 +55,18 @@ runServer {
     ]
 }
 
+
+group= "com.stateshifterlabs.achievementbooks"
+archivesBaseName = "achievementbooks"
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.add('-Xlint:unchecked')
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
 
 processResources {
     inputs.property "version", project.version

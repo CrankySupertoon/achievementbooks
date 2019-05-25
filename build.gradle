@@ -18,7 +18,7 @@ subprojects {
 def getVersionAppendage() {
     def proc = "git rev-parse --short HEAD".execute()
     proc.waitFor()
-    return proc.exitValue() ? "GITBORK" : proc.text.trim()
+    return proc.exitValue() ? "" : proc.text.trim()
 }
 
 task cleanUpMinecraftRunClutter {
